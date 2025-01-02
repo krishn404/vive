@@ -96,7 +96,7 @@ Vive aims to revolutionize your productivity workflow by providing a seamless, b
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/vive.git
+git clone https://github.com/krishn404/vive.git
 
 # Navigate to the project
 cd vive
