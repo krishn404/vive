@@ -41,3 +41,45 @@ export const ambientThemes = [
     isAnimated: false,
   },
 ]
+export const newThemes = [
+  {
+    value: 'ethereal-purple',
+    gradient: 'radial-gradient(circle at top left, #663399, #87CEEB, #FFB6C1, #FFFDD0)',
+  },
+  {
+    value: 'purple-yellow-orange',
+    gradient: 'radial-gradient(circle at top left, purple, yellow, orange)',
+  },
+  {
+    value: 'white-black-gray',
+    gradient: 'radial-gradient(circle at top left, white, black, gray)',
+  },
+  {
+    value: 'orange-yellow-green',
+    gradient: 'radial-gradient(circle at top left, orange, yellow, green)',
+  },
+  {
+    value: 'sunset-dream',
+    gradient: 'radial-gradient(circle at top left, #FF6B6B, #4ECDC4, #45B7D1, #96CEB4)',
+  },
+  {
+    value: 'cotton-candy',
+    gradient: 'radial-gradient(circle at top left, #FFAFBD, #FFC3A0, #DDB4F2, #A8E6CF)',
+  },
+  {
+    value: 'ocean-mist',
+    gradient: 'radial-gradient(circle at top left, #2E3192, #1BFFFF, #D4F1F4, #75E6DA)',
+  },
+  {
+    value: 'forest-fog',
+    gradient: 'radial-gradient(circle at top left, #2D5A27, #A8E6CF, #DCEDC1, #FAD2E1)',
+  },
+  {
+    value: 'desert-dusk',
+    gradient: 'radial-gradient(circle at top left, #FF7E5F, #FEB47B, #FFE66D, #7EC6BC)',
+  },
+  {
+    value: 'northern-lights',
+    gradient: 'radial-gradient(circle at top left, #1A2980, #26D0CE, #20E2D7, #F8FF00)',
+  },
+];

@@ -1,9 +1,11 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Leaf, Home, Moon, Gift, Settings, Maximize2, Music2, PlayCircle, Volume2 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { SettingsPanel } from './settings-panel'
+import { newThemes } from '@/lib/gradient-themes'
+import { fetchMusicData } from '@/lib/vibe-drx'
 
 interface LayoutProps {
   children: React.ReactNode
@@ -25,51 +27,21 @@ export function Layout({ children, className, onModeChange, isOnboarding, curren
   }
 
   const getThemeClasses = () => {
+    const theme = newThemes.find(t => t.value === currentTheme);
+    
+    if (theme) {
+      return {
+        background: theme.gradient,
+        video: null
+      };
+    }
+
+    // Fallback or special cases
     switch (currentTheme) {
-      case 'ethereal-purple':
-        return {
-          background: 'bg-[radial-gradient(circle_at_top_left,_#663399,_#87CEEB,_#FFB6C1,_#FFFDD0)]',
-          video: null
-        }
-      case 'purple-yellow-orange':
-        return {
-          background: 'bg-[radial-gradient(circle_at_top_left,_purple,_yellow,_orange)]',
-          video: null
-        }
-      case 'white-black-gray':
-        return {
-          background: 'bg-[radial-gradient(circle_at_top_left,_white,_black,_gray)]',
-          video: null
-        }
-      case 'orange-yellow-green':
-        return {
-          background: 'bg-[radial-gradient(circle_at_top_left,_orange,_yellow,_green)]',
-          video: null
-        }
       case 'minimalist-black':
         return {
           background: 'none',
           video: '/bg/vid-1.mp4'
-        }
-      case 'aura-twilight':
-        return {
-          background: 'bg-gradient-to-br from-purple-500 via-pink-500 to-blue-500',
-          video: null
-        }
-      case 'peach-aura':
-        return {
-          background: 'bg-gradient-to-br from-pink-300 via-red-300 to-pink-400',
-          video: null
-        }
-      case 'light-pink':
-        return {
-          background: 'bg-gradient-to-br from-pink-400 to-pink-200',
-          video: null
-        }
-      case 'lava-lamp':
-        return {
-          background: 'bg-gradient-to-br from-purple-600 via-red-500 to-orange-500',
-          video: null
         }
       default:
         return {
@@ -86,11 +58,24 @@ export function Layout({ children, className, onModeChange, isOnboarding, curren
     onModeChange(mode);
   };
 
+  const handleMusicFetch = async () => {
+    try {
+      const musicData = await fetchMusicData();
+      console.log(musicData); // Handle the music data as needed
+    } catch (error) {
+      console.error('Failed to fetch music data:', error);
+    }
+  };
+
+  useEffect(() => {
+    handleMusicFetch();
+  }, []);
+
   return (
-    <>
-      <div className={cn(
-        'min-h-screen w-full relative overflow-hidden transition-colors duration-500',
-        theme.background,
+    <> 
+      <div style={{ backgroundImage: theme.background }} className={cn(
+        'min-h-screen w-full relative overflow-hidden transition-colors duration-500 ',
+        theme.background, 
         className
       )}>
         {theme.video && (
@@ -110,7 +95,7 @@ export function Layout({ children, className, onModeChange, isOnboarding, curren
         {/* Logo */}
         <header className="absolute top-0 left-0 z-10 p-6">
           <div className="flex items-center gap-2">
-            <h1 className="text-2xl font-bold text-white">（*＾-＾*）</h1>
+            <h1 className="text-2xl font-bold text-white">Vive</h1>
           </div>
         </header>
 

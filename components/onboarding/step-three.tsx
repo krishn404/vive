@@ -4,30 +4,12 @@ import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { ArrowLeft } from 'lucide-react'
 import { useState } from 'react'
+import { newThemes } from '@/lib/gradient-themes'
 
 interface StepThreeProps {
   onBack: () => void
   onComplete: (theme: string) => void
 }
-
-const newThemes = [
-  {
-    value: 'ethereal-purple',
-    gradient: 'bg-[radial-gradient(circle_at_top_left,_#663399,_#87CEEB,_#FFB6C1,_#FFFDD0)]'
-},
-  {
-    value: 'purple-yellow-orange',
-    gradient: 'bg-[radial-gradient(circle_at_top_left,_purple,_yellow,_orange)]'
-  },
-  {
-    value: 'white-black-gray',
-    gradient: 'bg-[radial-gradient(circle_at_top_left,_white,_black,_gray)]'
-  },
-  {
-    value: 'orange-yellow-green',
-    gradient: 'bg-[radial-gradient(circle_at_top_left,_orange,_yellow,_green)]'
-  }
-]
 
 export function StepThree({ onBack, onComplete }: StepThreeProps) {
   const [selectedTheme, setSelectedTheme] = useState<string | null>(null);
@@ -43,7 +25,7 @@ export function StepThree({ onBack, onComplete }: StepThreeProps) {
   };
 
   return (
-    <Card className={`w-full max-w-4xl mx-auto ${getBackgroundStyle()} bg-black/30 backdrop-blur-xl border-0`}>
+    <Card style={{ backgroundImage: getBackgroundStyle() }} className={`w-full max-w-4xl mx-auto bg-black/30 backdrop-blur-xl border-0`}>
       <div className="p-8">
         <button
           onClick={onBack}
@@ -63,7 +45,7 @@ export function StepThree({ onBack, onComplete }: StepThreeProps) {
             </h3>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               {newThemes.map((theme) => (
-                <button
+                <button style={{ backgroundImage: theme.gradient }}
                   key={theme.value}
                   onClick={() => handleThemeSelect(theme.value)}
                   className={`aspect-video rounded-lg hover:ring-2 ring-white/50 transition-all ${theme.gradient}`}
