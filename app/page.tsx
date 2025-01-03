@@ -36,7 +36,7 @@ export default function Home() {
 
   if (!isOnboarded) {
     return (
-      <Layout onModeChange={setCurrentMode} className="flex items-center justify-center p-4">
+      <Layout onModeChange={setCurrentMode} className="flex items-center justify-center p-4" isOnboarding={true}>
         {step === 1 && <StepOne onNext={handleStepOne} />}
         {step === 2 && (
           <StepTwo 
@@ -55,7 +55,7 @@ export default function Home() {
   }
 
   return (
-    <Layout onModeChange={setCurrentMode}>
+    <Layout onModeChange={setCurrentMode} isOnboarding={false}>
       {currentMode === 'home' && <HomeMode name={userData.name} />}
       {currentMode === 'focus' && <FocusMode name={userData.name} />}
       {currentMode === 'ambient' && <AmbientMode />}

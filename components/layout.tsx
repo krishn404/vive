@@ -9,11 +9,12 @@ interface LayoutProps {
   children: React.ReactNode
   className?: string
   onModeChange: (mode: Mode) => void
+  isOnboarding: boolean
 }
 
 export type Mode = 'home' | 'focus' | 'ambient'
 
-export function Layout({ children, className, onModeChange }: LayoutProps) {
+export function Layout({ children, className, onModeChange, isOnboarding }: LayoutProps) {
   const [currentMode, setCurrentMode] = useState<Mode>('home')
   const [isSettingsOpen, setIsSettingsOpen] = useState(false)
   const [currentTheme, setCurrentTheme] = useState('aura-twilight')
@@ -97,71 +98,76 @@ export function Layout({ children, className, onModeChange }: LayoutProps) {
           {children}
         </main>
 
-        {/* Music Player Footer */}
-        <div className="fixed bottom-24 left-6 z-20 flex items-center gap-2">
-          <button className="p-2 text-white/80 hover:text-white transition-colors bg-black/20 backdrop-blur-lg rounded-full">
-            <Music2 className="w-5 h-5" />
-          </button>
-          <div className="flex items-center gap-2 bg-black/20 backdrop-blur-lg rounded-full p-2">
-            <button className="text-white/80 hover:text-white transition-colors">
-              <PlayCircle className="w-5 h-5" />
-            </button>
-            <div className="h-4 w-px bg-white/20" />
-            <button className="text-white/80 hover:text-white transition-colors">
-              <Volume2 className="w-5 h-5" />
-            </button>
-          </div>
-        </div>
+        {/* Conditionally render Music Player Footer and Bottom Navigation */}
+        {!isOnboarding && (
+          <>
+            {/* Music Player Footer */}
+            <div className="fixed bottom-24 left-6 z-20 flex items-center gap-2">
+              <button className="p-2 text-white/80 hover:text-white transition-colors bg-black/20 backdrop-blur-lg rounded-full">
+                <Music2 className="w-5 h-5" />
+              </button>
+              <div className="flex items-center gap-2 bg-black/20 backdrop-blur-lg rounded-full p-2">
+                <button className="text-white/80 hover:text-white transition-colors">
+                  <PlayCircle className="w-5 h-5" />
+                </button>
+                <div className="h-4 w-px bg-white/20" />
+                <button className="text-white/80 hover:text-white transition-colors">
+                  <Volume2 className="w-5 h-5" />
+                </button>
+              </div>
+            </div>
 
-        {/* Bottom Navigation */}
-        <nav className="fixed bottom-6 left-1/2 -translate-x-1/2 z-20 flex items-center gap-4">
-          {/* Left grouped buttons */}
-          <div className="flex items-center bg-black/20 backdrop-blur-lg rounded-full p-2">
-            <button 
-              onClick={() => handleModeChange('ambient')}
-              className={cn(
-                "p-2 transition-colors rounded-full",
-                currentMode === 'ambient' ? "text-white bg-white/10" : "text-white/80 hover:text-white"
-              )}
-            >
-              <Leaf className="w-5 h-5" />
-            </button>
-            <button 
-              onClick={() => handleModeChange('home')}
-              className={cn(
-                "p-2 transition-colors rounded-full",
-                currentMode === 'home' ? "text-white bg-white/10" : "text-white/80 hover:text-white"
-              )}
-            >
-              <Home className="w-5 h-5" />
-            </button>
-            <button 
-              onClick={() => handleModeChange('focus')}
-              className={cn(
-                "p-2 transition-colors rounded-full",
-                currentMode === 'focus' ? "text-white bg-white/10" : "text-white/80 hover:text-white"
-              )}
-            >
-              <Moon className="w-5 h-5" />
-            </button>
-          </div>
+            {/* Bottom Navigation */}
+            <nav className="fixed bottom-6 left-1/2 -translate-x-1/2 z-20 flex items-center gap-4">
+              {/* Left grouped buttons */}
+              <div className="flex items-center bg-black/20 backdrop-blur-lg rounded-full p-2">
+                <button 
+                  onClick={() => handleModeChange('ambient')}
+                  className={cn(
+                    "p-2 transition-colors rounded-full",
+                    currentMode === 'ambient' ? "text-white bg-white/10" : "text-white/80 hover:text-white"
+                  )}
+                >
+                  <Leaf className="w-5 h-5" />
+                </button>
+                <button 
+                  onClick={() => handleModeChange('home')}
+                  className={cn(
+                    "p-2 transition-colors rounded-full",
+                    currentMode === 'home' ? "text-white bg-white/10" : "text-white/80 hover:text-white"
+                  )}
+                >
+                  <Home className="w-5 h-5" />
+                </button>
+                <button 
+                  onClick={() => handleModeChange('focus')}
+                  className={cn(
+                    "p-2 transition-colors rounded-full",
+                    currentMode === 'focus' ? "text-white bg-white/10" : "text-white/80 hover:text-white"
+                  )}
+                >
+                  <Moon className="w-5 h-5" />
+                </button>
+              </div>
 
-          {/* Right buttons */}
-          <div className="flex items-center gap-2">
-            <button className="p-2 text-white/80 hover:text-white transition-colors bg-black/20 backdrop-blur-lg rounded-full">
-              <Gift className="w-5 h-5" />
-            </button>
-            <button 
-              className="p-2 text-white/80 hover:text-white transition-colors bg-black/20 backdrop-blur-lg rounded-full"
-              onClick={() => setIsSettingsOpen(true)}
-            >
-              <Settings className="w-5 h-5" />
-            </button>
-            <button className="p-2 text-white/80 hover:text-white transition-colors bg-black/20 backdrop-blur-lg rounded-full">
-              <Maximize2 className="w-5 h-5" />
-            </button>
-          </div>
-        </nav>
+              {/* Right buttons */}
+              <div className="flex items-center gap-2">
+                <button className="p-2 text-white/80 hover:text-white transition-colors bg-black/20 backdrop-blur-lg rounded-full">
+                  <Gift className="w-5 h-5" />
+                </button>
+                <button 
+                  className="p-2 text-white/80 hover:text-white transition-colors bg-black/20 backdrop-blur-lg rounded-full"
+                  onClick={() => setIsSettingsOpen(true)}
+                >
+                  <Settings className="w-5 h-5" />
+                </button>
+                <button className="p-2 text-white/80 hover:text-white transition-colors bg-black/20 backdrop-blur-lg rounded-full">
+                  <Maximize2 className="w-5 h-5" />
+                </button>
+              </div>
+            </nav>
+          </>
+        )}
       </div>
 
       <SettingsPanel 
