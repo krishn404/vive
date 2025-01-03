@@ -15,8 +15,8 @@ import { ScrollArea } from "@/components/ui/scroll-area"
 interface SettingsPanelProps {
   isOpen: boolean
   onClose: () => void
-  onThemeChange: (theme: string) => void
-  currentTheme: string
+  onThemeChange?: (theme: string) => void
+  currentTheme?: string
 }
 
 const themes = [
@@ -47,7 +47,7 @@ const themes = [
     isAnimated: true
   },
   {
-    name: 'Minimalist Black',
+    name: 'Goku Lightening',
     preview: '/bg/vid-1.mp4',
     value: 'minimalist-black',
     video: '/bg/vid-1.mp4',
@@ -195,7 +195,7 @@ export function SettingsPanel({ isOpen, onClose, onThemeChange, currentTheme }: 
                   {themes.map((theme) => (
                     <button
                       key={theme.value}
-                      onClick={() => onThemeChange(theme.value)}
+                      onClick={() => onThemeChange?.(theme.value)}
                       className={cn(
                         "relative aspect-video rounded-lg overflow-hidden",
                         "hover:ring-2 ring-white/50 transition-all",
@@ -237,4 +237,3 @@ export function SettingsPanel({ isOpen, onClose, onThemeChange, currentTheme }: 
     </div>
   )
 }
-

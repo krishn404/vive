@@ -10,21 +10,42 @@ interface LayoutProps {
   className?: string
   onModeChange: (mode: Mode) => void
   isOnboarding: boolean
+  currentTheme: string
+  onThemeChange?: (theme: string) => void
 }
 
 export type Mode = 'home' | 'focus' | 'ambient'
 
-export function Layout({ children, className, onModeChange, isOnboarding }: LayoutProps) {
+export function Layout({ children, className, onModeChange, isOnboarding, currentTheme, onThemeChange }: LayoutProps) {
   const [currentMode, setCurrentMode] = useState<Mode>('home')
   const [isSettingsOpen, setIsSettingsOpen] = useState(false)
-  const [currentTheme, setCurrentTheme] = useState('aura-twilight')
 
   const handleThemeChange = (theme: string) => {
-    setCurrentTheme(theme)
+    onThemeChange?.(theme)
   }
 
   const getThemeClasses = () => {
     switch (currentTheme) {
+      case 'ethereal-purple':
+        return {
+          background: 'bg-[radial-gradient(circle_at_top_left,_#663399,_#87CEEB,_#FFB6C1,_#FFFDD0)]',
+          video: null
+        }
+      case 'purple-yellow-orange':
+        return {
+          background: 'bg-[radial-gradient(circle_at_top_left,_purple,_yellow,_orange)]',
+          video: null
+        }
+      case 'white-black-gray':
+        return {
+          background: 'bg-[radial-gradient(circle_at_top_left,_white,_black,_gray)]',
+          video: null
+        }
+      case 'orange-yellow-green':
+        return {
+          background: 'bg-[radial-gradient(circle_at_top_left,_orange,_yellow,_green)]',
+          video: null
+        }
       case 'minimalist-black':
         return {
           background: 'none',
@@ -179,4 +200,3 @@ export function Layout({ children, className, onModeChange, isOnboarding }: Layo
     </>
   )
 }
-

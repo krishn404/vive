@@ -3,14 +3,31 @@
 import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { ArrowLeft } from 'lucide-react'
-import { gradientThemes, ambientThemes } from '@/lib/gradient-themes'
-import Image from 'next/image'
 import { useState } from 'react'
 
 interface StepThreeProps {
   onBack: () => void
   onComplete: (theme: string) => void
 }
+
+const newThemes = [
+  {
+    value: 'ethereal-purple',
+    gradient: 'bg-[radial-gradient(circle_at_top_left,_#663399,_#87CEEB,_#FFB6C1,_#FFFDD0)]'
+},
+  {
+    value: 'purple-yellow-orange',
+    gradient: 'bg-[radial-gradient(circle_at_top_left,_purple,_yellow,_orange)]'
+  },
+  {
+    value: 'white-black-gray',
+    gradient: 'bg-[radial-gradient(circle_at_top_left,_white,_black,_gray)]'
+  },
+  {
+    value: 'orange-yellow-green',
+    gradient: 'bg-[radial-gradient(circle_at_top_left,_orange,_yellow,_green)]'
+  }
+]
 
 export function StepThree({ onBack, onComplete }: StepThreeProps) {
   const [selectedTheme, setSelectedTheme] = useState<string | null>(null);
@@ -21,17 +38,12 @@ export function StepThree({ onBack, onComplete }: StepThreeProps) {
   };
 
   const getBackgroundStyle = () => {
-    if (selectedTheme) {
-      if (selectedTheme in gradientThemes) {
-        return gradientThemes[selectedTheme as keyof typeof gradientThemes].background;
-      }
-      return '';
-    }
-    return '';
+    const theme = newThemes.find(t => t.value === selectedTheme);
+    return theme ? theme.gradient : '';
   };
 
   return (
-    <Card className={`w-full max-w-4xl mx-auto bg-black/30 backdrop-blur-xl border-0 ${getBackgroundStyle()}`}>
+    <Card className={`w-full max-w-4xl mx-auto ${getBackgroundStyle()} bg-black/30 backdrop-blur-xl border-0`}>
       <div className="p-8">
         <button
           onClick={onBack}
@@ -47,38 +59,18 @@ export function StepThree({ onBack, onComplete }: StepThreeProps) {
         <div className="space-y-8">
           <section>
             <h3 className="text-xl font-semibold text-white mb-4">
-              Gradients & Colors
+              New Themes
             </h3>
-            <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-              {Object.entries(gradientThemes).map(([key, theme]) => (
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              {newThemes.map((theme) => (
                 <button
-                  key={key}
-                  onClick={() => handleThemeSelect(key)}
-                  className={`aspect-video rounded-lg hover:ring-2 ring-white/50 transition-all ${theme.background}`}
-                />
-              ))}
-            </div>
-          </section>
-
-          <section>
-            <h3 className="text-xl font-semibold text-white mb-4">
-              Ambient Worlds
-            </h3>
-            <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-              {ambientThemes.map((theme) => (
-                <button
-                  key={theme.id}
-                  onClick={() => handleThemeSelect(theme.id)}
-                  className={`relative aspect-video rounded-lg overflow-hidden hover:ring-2 ring-white/50 transition-all ${
-                    selectedTheme === theme.id ? 'animate-bg' : ''
-                  }`}
+                  key={theme.value}
+                  onClick={() => handleThemeSelect(theme.value)}
+                  className={`aspect-video rounded-lg hover:ring-2 ring-white/50 transition-all ${theme.gradient}`}
                 >
-                  <Image
-                    src={theme.image}
-                    alt={theme.name}
-                    fill
-                    className="w-full h-full object-cover"
-                  />
+                  <span className="absolute bottom-2 left-2 text-sm text-white font-medium">
+                    {/* {theme.name} */}
+                  </span>
                 </button>
               ))}
             </div>
@@ -97,4 +89,3 @@ export function StepThree({ onBack, onComplete }: StepThreeProps) {
     </Card>
   )
 }
-

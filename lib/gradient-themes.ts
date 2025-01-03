@@ -10,7 +10,7 @@ export const gradientThemes = {
     textColor: 'text-white',
   },
   minimalistBlack: {
-    name: 'Minimalist Black',
+    name: 'Goku Lightening',
     background: '/public/bg/vid-1.mp4',
     textColor: 'text-white',
   },
@@ -41,4 +41,3 @@ export const ambientThemes = [
     isAnimated: false,
   },
 ]
-

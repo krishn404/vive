@@ -81,4 +81,3 @@ export function StepTwo({ onBack, onNext }: StepTwoProps) {
     </Card>
   )
 }
-

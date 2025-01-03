@@ -57,4 +57,3 @@ export function StepOne({ onNext }: StepOneProps) {
     </motion.div>
   )
 }
-

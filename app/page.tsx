@@ -36,7 +36,12 @@ export default function Home() {
 
   if (!isOnboarded) {
     return (
-      <Layout onModeChange={setCurrentMode} className="flex items-center justify-center p-4" isOnboarding={true}>
+      <Layout 
+        onModeChange={setCurrentMode} 
+        className="flex items-center justify-center p-4" 
+        isOnboarding={true}
+        currentTheme={userData.theme}
+      >
         {step === 1 && <StepOne onNext={handleStepOne} />}
         {step === 2 && (
           <StepTwo 
@@ -55,11 +60,15 @@ export default function Home() {
   }
 
   return (
-    <Layout onModeChange={setCurrentMode} isOnboarding={false}>
+    <Layout 
+      onModeChange={setCurrentMode} 
+      isOnboarding={false}
+      currentTheme={userData.theme}
+      onThemeChange={(theme) => setUserData(prev => ({ ...prev, theme }))}
+    >
       {currentMode === 'home' && <HomeMode name={userData.name} />}
       {currentMode === 'focus' && <FocusMode name={userData.name} />}
       {currentMode === 'ambient' && <AmbientMode />}
     </Layout>
   )
 }
-
