@@ -2,15 +2,10 @@
 
 import { X, Home, Moon, Leaf, Clock, Timer, BarChart2, Music2, Volume2, Quote, Sparkles, User, HelpCircle, Zap } from 'lucide-react'
 import { cn } from '@/lib/utils'
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
-import { Button } from "@/components/ui/button"
 import { ScrollArea } from "@/components/ui/scroll-area"
+import { Button } from "@/components/ui/button"
+import { customThemes } from '@/lib/gradient-themes'
+import { useEffect } from 'react'
 
 interface SettingsPanelProps {
   isOpen: boolean
@@ -18,42 +13,6 @@ interface SettingsPanelProps {
   onThemeChange?: (theme: string) => void
   currentTheme?: string
 }
-
-const themes = [
-  {
-    name: 'Aura Twilight',
-    preview: '/placeholder.svg?height=120&width=200',
-    value: 'aura-twilight',
-    gradient: 'bg-gradient-to-br from-purple-500 via-pink-500 to-blue-500'
-  },
-  {
-    name: 'Peach Aura Heart',
-    preview: '/placeholder.svg?height=120&width=200',
-    value: 'peach-aura',
-    gradient: 'bg-gradient-to-br from-pink-300 via-red-300 to-pink-400'
-  },
-  {
-    name: 'Light Pink Heart',
-    preview: '/placeholder.svg?height=120&width=200',
-    value: 'light-pink',
-    gradient: 'bg-gradient-to-br from-pink-400 to-pink-200',
-    isPremium: true
-  },
-  {
-    name: 'Lava Lamp',
-    preview: '/placeholder.svg?height=120&width=200',
-    value: 'lava-lamp',
-    gradient: 'bg-gradient-to-br from-purple-600 via-red-500 to-orange-500',
-    isAnimated: true
-  },
-  {
-    name: 'Goku Lightening',
-    preview: '/bg/vid-1.mp4',
-    value: 'minimalist-black',
-    video: '/bg/vid-1.mp4',
-    gradient: undefined
-  }
-]
 
 const menuItems = [
   { icon: Home, label: 'Home Theme', isActive: true },
@@ -71,6 +30,22 @@ const menuItems = [
 ]
 
 export function SettingsPanel({ isOpen, onClose, onThemeChange, currentTheme }: SettingsPanelProps) {
+  useEffect(() => {
+    // Add the animation styles when the component mounts
+    const style = document.createElement('style')
+    style.innerHTML = `
+      @keyframes gradientAnimation {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+      }
+    `
+    document.head.appendChild(style)
+    return () => {
+      document.head.removeChild(style)
+    }
+  }, [])
+
   if (!isOpen) return null
 
   return (
@@ -131,68 +106,11 @@ export function SettingsPanel({ isOpen, onClose, onThemeChange, currentTheme }: 
                 dashboard toggle is set to Home, then come back to this Settings tab.
               </p>
 
-              {/* Filters */}
-              <div className="grid grid-cols-4 gap-4 mb-8">
-                <div>
-                  <label className="text-sm text-white mb-2 block">Type</label>
-                  <Select defaultValue="all">
-                    <SelectTrigger>
-                      <SelectValue placeholder="All" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="all">All</SelectItem>
-                      <SelectItem value="gradient">Gradient</SelectItem>
-                      <SelectItem value="solid">Solid</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-                <div>
-                  <label className="text-sm text-white mb-2 block">Environment</label>
-                  <Select defaultValue="all">
-                    <SelectTrigger>
-                      <SelectValue placeholder="All" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="all">All</SelectItem>
-                      <SelectItem value="light">Light</SelectItem>
-                      <SelectItem value="dark">Dark</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-                <div>
-                  <label className="text-sm text-white mb-2 block">Brightness</label>
-                  <Select defaultValue="all">
-                    <SelectTrigger>
-                      <SelectValue placeholder="All" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="all">All</SelectItem>
-                      <SelectItem value="bright">Bright</SelectItem>
-                      <SelectItem value="dim">Dim</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-                <div>
-                  <label className="text-sm text-white mb-2 block">Color</label>
-                  <Select defaultValue="all">
-                    <SelectTrigger>
-                      <SelectValue placeholder="All" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="all">All</SelectItem>
-                      <SelectItem value="purple">Purple</SelectItem>
-                      <SelectItem value="pink">Pink</SelectItem>
-                      <SelectItem value="blue">Blue</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-              </div>
-
               {/* Themes Grid */}
               <div>
                 <h3 className="text-xl font-semibold text-white mb-4">Gradients & Colors</h3>
-                <div className="grid grid-cols-3 gap-4">
-                  {themes.map((theme) => (
+                <div className="grid grid-cols-2 gap-4">
+                  {customThemes.map((theme) => (
                     <button
                       key={theme.value}
                       onClick={() => onThemeChange?.(theme.value)}
@@ -211,12 +129,16 @@ export function SettingsPanel({ isOpen, onClose, onThemeChange, currentTheme }: 
                           muted
                         />
                       ) : (
-                        <div className={cn("w-full h-full", theme.gradient)} />
-                      )}
-                      {theme.isPremium && (
-                        <span className="absolute top-2 right-2 text-xs bg-purple-600 text-white px-2 py-1 rounded">
-                          PLUS
-                        </span>
+                        <div 
+                          className="w-full h-full"
+                          style={{
+                            background: theme.gradient,
+                            ...(theme.isAnimated && {
+                              backgroundSize: '400% 400%',
+                              animation: 'gradientAnimation 15s ease infinite'
+                            })
+                          }}
+                        />
                       )}
                       {theme.isAnimated && (
                         <span className="absolute top-2 right-2 text-xs bg-purple-600 text-white px-2 py-1 rounded">
@@ -237,3 +159,4 @@ export function SettingsPanel({ isOpen, onClose, onThemeChange, currentTheme }: 
     </div>
   )
 }
+

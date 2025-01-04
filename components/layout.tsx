@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import { Leaf, Home, Moon, Gift, Settings, Maximize2 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { SettingsPanel } from './settings-panel'
-import { newThemes } from '@/lib/gradient-themes'
+import { customThemes, newThemes } from '@/lib/gradient-themes'
 import { fetchMusicData } from '@/lib/vibe-drx'
 import { MusicPlayer } from './widget/music-player'
 
@@ -28,28 +28,35 @@ export function Layout({ children, className, onModeChange, isOnboarding, curren
   }
 
   const getThemeClasses = () => {
-    const theme = newThemes.find(t => t.value === currentTheme);
+    const theme = [...customThemes, ...newThemes].find(t => t.value === currentTheme);
     
-    if (theme) {
+    if (!theme) {
       return {
-        background: theme.gradient,
+        background: 'bg-gradient-to-br from-purple-500 via-pink-500 to-blue-500',
+        style: {},
         video: null
       };
     }
 
-    // Fallback or special cases
-    switch (currentTheme) {
-      case 'minimalist-black':
-        return {
-          background: 'none',
-          video: '/bg/vid-1.mp4'
-        }
-      default:
-        return {
-          background: 'bg-gradient-to-br from-purple-500 via-pink-500 to-blue-500',
-          video: null
-        }
+    if ('video' in theme) {
+      return {
+        background: '',
+        style: {},
+        video: theme.video
+      };
     }
+
+    return {
+      background: '',
+      style: {
+        background: theme.gradient || '',
+        ...('isAnimated' in theme && theme.isAnimated ? {
+          backgroundSize: '400% 400%',
+          animation: 'gradientAnimation 15s ease infinite'
+        } : {})
+      },
+      video: null
+    };
   }
 
   const theme = getThemeClasses()
@@ -74,18 +81,22 @@ export function Layout({ children, className, onModeChange, isOnboarding, curren
 
   return (
     <> 
-      <div style={{ backgroundImage: theme.background }} className={cn(
-        'min-h-screen w-full relative overflow-hidden transition-colors duration-500 ',
-        theme.background, 
-        className
-      )}>
+      <div 
+        style={theme.style} 
+        className={cn(
+          'min-h-screen w-full relative overflow-hidden transition-colors duration-500',
+          theme.background,
+          className
+        )}
+      >
         {theme.video && (
           <div className="fixed inset-0 w-full h-full object-cover bg-no-repeat overflow-hidden -z-10">
             <video
               autoPlay
               muted
+              loop
               playsInline
-              className="absolute top-0 left-0 w-full bg-no-repeat h-full object-cover"
+              className="absolute top-0 left-0 w-full h-full object-cover"
             >
               <source src={theme.video} type="video/mp4" />
             </video>

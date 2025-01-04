@@ -45,14 +45,15 @@ export function StepThree({ onBack, onComplete }: StepThreeProps) {
             </h3>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               {newThemes.map((theme) => (
-                <button style={{ backgroundImage: theme.gradient }}
+                <button
                   key={theme.value}
                   onClick={() => handleThemeSelect(theme.value)}
-                  className={`aspect-video rounded-lg hover:ring-2 ring-white/50 transition-all ${theme.gradient}`}
+                  className={`aspect-video rounded-lg hover:ring-2 ring-white/50 transition-all`}
+                  style={{ backgroundImage: theme.gradient }}
                 >
-                  <span className="absolute bottom-2 left-2 text-sm text-white font-medium">
-                    {/* {theme.name} */}
-                  </span>
+                  {/* <span className="absolute bottom-2 left-2 text-sm text-white font-medium">
+                    {theme.name}
+                  </span> */}
                 </button>
               ))}
             </div>
@@ -71,3 +72,4 @@ export function StepThree({ onBack, onComplete }: StepThreeProps) {
     </Card>
   )
 }
+

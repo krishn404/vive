@@ -45,22 +45,13 @@ export function MusicPlayer() {
       const highestQualityUrl = currentTrack.downloadUrl.reduce((prev, current) => {
         return (parseInt(prev.quality) > parseInt(current.quality)) ? prev : current;
       }).url;
-      
-      // Store current time before changing source
-      const previousTime = audioRef.current.currentTime;
-      
       audioRef.current.src = highestQualityUrl
-      
-      // After setting new source, set the time and play if needed
-      audioRef.current.addEventListener('loadedmetadata', () => {
-        audioRef.current!.currentTime = previousTime;
-        if (isPlaying) {
-          audioRef.current!.play().catch(e => {
-            console.error('Error playing audio:', e)
-            setError('Error playing audio. Please try again.')
-          })
-        }
-      }, { once: true })
+      if (isPlaying) {
+        audioRef.current.play().catch(e => {
+          console.error('Error playing audio:', e)
+          setError('Error playing audio. Please try again.')
+        })
+      }
     }
   }, [currentTrack, isPlaying])
 
@@ -111,8 +102,8 @@ export function MusicPlayer() {
     if (audioRef.current) {
       if (isPlaying) {
         audioRef.current.pause()
+        setCurrentTime(audioRef.current.currentTime)
       } else {
-        // Ensure we set the current time before playing
         audioRef.current.currentTime = currentTime
         audioRef.current.play().catch(e => {
           console.error('Error playing audio:', e)
