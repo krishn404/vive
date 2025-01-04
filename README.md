@@ -84,10 +84,10 @@ Vive aims to revolutionize your productivity workflow by providing a seamless, b
 
 - [x] Project Integration
 - [x] Basic UI implementation
+- [x] Audio integration( with [**VIBE**](https://getvibe.in/))
 - [ ] Core timer functionality
 - [ ] Task management system
 - [ ] Theme system
-- [ ] Audio integration
 - [ ] Analytics dashboard
 - [ ] User authentication
 - [ ] Cloud sync
