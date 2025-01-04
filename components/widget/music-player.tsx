@@ -197,8 +197,14 @@ export function MusicPlayer() {
               />
             )}
             <div className="flex-1 min-w-0">
-              <h3 className="text-white text-sm font-medium truncate">{currentTrack?.name}</h3>
-              <p className="text-white/60 text-xs truncate">{currentTrack?.artists.primary[0]?.name}</p>
+              <h3 
+                className="text-white text-sm font-medium truncate" 
+                dangerouslySetInnerHTML={{ __html: currentTrack?.name || '' }}
+              />
+              <p 
+                className="text-white/60 text-xs truncate" 
+                dangerouslySetInnerHTML={{ __html: currentTrack?.artists.primary[0]?.name || '' }}
+              />
             </div>
             <div className="flex items-center gap-2">
               <button 
