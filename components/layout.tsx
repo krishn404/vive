@@ -1,11 +1,12 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Leaf, Home, Moon, Gift, Settings, Maximize2, Music2, PlayCircle, Volume2 } from 'lucide-react'
+import { Leaf, Home, Moon, Gift, Settings, Maximize2 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { SettingsPanel } from './settings-panel'
 import { newThemes } from '@/lib/gradient-themes'
 import { fetchMusicData } from '@/lib/vibe-drx'
+import { MusicPlayer } from './widget/music-player'
 
 interface LayoutProps {
   children: React.ReactNode
@@ -108,20 +109,7 @@ export function Layout({ children, className, onModeChange, isOnboarding, curren
         {!isOnboarding && (
           <>
             {/* Music Player Footer */}
-            <div className="fixed bottom-24 left-6 z-20 flex items-center gap-2">
-              <button className="p-2 text-white/80 hover:text-white transition-colors bg-black/20 backdrop-blur-lg rounded-full">
-                <Music2 className="w-5 h-5" />
-              </button>
-              <div className="flex items-center gap-2 bg-black/20 backdrop-blur-lg rounded-full p-2">
-                <button className="text-white/80 hover:text-white transition-colors">
-                  <PlayCircle className="w-5 h-5" />
-                </button>
-                <div className="h-4 w-px bg-white/20" />
-                <button className="text-white/80 hover:text-white transition-colors">
-                  <Volume2 className="w-5 h-5" />
-                </button>
-              </div>
-            </div>
+            <MusicPlayer />
 
             {/* Bottom Navigation */}
             <nav className="fixed bottom-6 left-1/2 -translate-x-1/2 z-20 flex items-center gap-4">
@@ -185,3 +173,4 @@ export function Layout({ children, className, onModeChange, isOnboarding, curren
     </>
   )
 }
+
